@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage[paperheight=4in,paperwidth=5in,vmargin={0.2cm,0.5cm},hmargin=0.5cm]{geometry}
+\usepackage{qrcode}
+
+\begin{document}
+
+\begin{center}
+
+\qrcode{WIFI:S:NETWORKNAME;T:WPA;P:PASSWORD;;}
+
+\begin{tabular}{r l}
+  SSID: & NETWORKNAME \\
+  Password: & PASSWORD \\
+\end{tabular}
+
+\end{center}
+
+\end{document}

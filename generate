@@ -1,0 +1,76 @@
+#!/usr/bin/env perl
+
+$networks_dir = "./networks/";
+$tex_dir = "./tex/";
+$aux_dir = "./aux/";
+$pdf_dir = "./pdf/";
+
+mkdir($pdf_dir);
+mkdir($aux_dir);
+mkdir($tex_dir);
+
+system("rm -rf $pdf_dir*");
+system("rm -rf $tex_dir*");
+system("rm -rf $aux_dir*");
+
+#Fill ARGV with all recipe names if no recipes given
+if($#ARGV == -1){
+  opendir DIR, $networks_dir or die "can not open dir $networks_dir: $!";
+  @network_names = readdir DIR;
+  closedir DIR;
+  foreach (@network_names){
+    push(@ARGV, $networks_dir.$_) if (-f $networks_dir.$_) and (-T $networks_dir.$_);
+  }
+  die "No networks found!" if ($#ARGV == -1);
+}
+
+while(<>){
+  chomp;
+  if($name eq ""){
+    $name = $_;
+  }else{
+    $password = $_;
+  }
+
+  if(eof){
+    print "$ARGV + $name + $password\n";
+    open TEMPLATE, '<', "./template" or die "can't open template: $!";
+    $out_file_name = $ARGV;
+    $out_file_name =~ s/${networks_dir}//;
+    $out_file_name =~ s/\//\./g;
+    $out_file_name = "${tex_dir}/${out_file_name}.tex";
+
+    open OUTFILE, ">${out_file_name}";
+    while(<TEMPLATE>){
+      #Fill out placeholder fields
+      s/NETWORKNAME/$name/;
+      s/PASSWORD/$password/;
+      print OUTFILE $_;
+    }
+    close OUTFILE;
+    close TEMPLATE;
+    $name = "";
+  }
+}
+
+#Generate individual pdf files from the files in ./tex/
+@aux_file_exts = ('aux', 'log', 'fls', 'fdb_latexmk');
+
+opendir DIR, $tex_dir or die "can not open dir $tex_dir: $!";
+my @dir_files = readdir DIR;
+closedir DIR;
+foreach $file (@dir_files){
+  push(@tex_files, $tex_dir.$file) if (-f $tex_dir.$file) and (-T $tex_dir.$file);
+}
+die "No tex files found in $tex_dir" if $#tex_files == -1;
+
+foreach(@tex_files){
+  if(system("latexmk -pdf -outdir=$pdf_dir -auxdir=$aux_dir $_")){
+    die "latexmk failed.";
+  }
+  #foreach $ext (@aux_file_exts){
+  #  s/[^.]+$/${ext}/;
+  #  s/tex\///;
+  #  system("rm -rf $pdf_dir$_");
+  #}
+}
