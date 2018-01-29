@@ -1,3 +1,3 @@
 Produces printable cards for wifi network SSIDs and passwords, along with a QR code for quick connections on phones.
 
-'generate' parses files in the networks directory and produces pdfs in the pdf directory. Network files should be named the SSID and contain the password on the first and only line of the file.
+'generate' parses files in the networks directory and produces pdfs in the pdf directory. Network files should contain the SSID on the first line and the password on the last line.
