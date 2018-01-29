@@ -65,12 +65,12 @@ foreach $file (@dir_files){
 die "No tex files found in $tex_dir" if $#tex_files == -1;
 
 foreach(@tex_files){
-  if(system("latexmk -pdf -outdir=$pdf_dir -auxdir=$aux_dir $_")){
+  if(system("latexmk -pdf -outdir=./pdf $_")){
     die "latexmk failed.";
   }
-  #foreach $ext (@aux_file_exts){
-  #  s/[^.]+$/${ext}/;
-  #  s/tex\///;
-  #  system("rm -rf $pdf_dir$_");
-  #}
+  foreach $ext (@aux_file_exts){
+    s/[^.]+$/${ext}/;
+    s/tex\///;
+    system("rm -rf $pdf_dir$_");
+  }
 }
