@@ -2,16 +2,14 @@
 
 $networks_dir = "./networks/";
 $tex_dir = "./tex/";
-$aux_dir = "./aux/";
 $pdf_dir = "./pdf/";
 
+mkdir($networks_dir);
 mkdir($pdf_dir);
-mkdir($aux_dir);
 mkdir($tex_dir);
 
 system("rm -rf $pdf_dir*");
 system("rm -rf $tex_dir*");
-system("rm -rf $aux_dir*");
 
 #Fill ARGV with all recipe names if no recipes given
 if($#ARGV == -1){
