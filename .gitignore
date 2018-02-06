@@ -1,3 +1,4 @@
-networks/
+networks/*
 tex/
 pdf/
+!networks/example
