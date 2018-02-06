@@ -1,5 +1,5 @@
 \documentclass{article}
-\usepackage[paperheight=4cm,paperwidth=6cm,vmargin={0.5cm,0.5cm},hmargin=0.5cm]{geometry}
+\usepackage[paperheight=4truecm,paperwidth=6truecm,vmargin={0.5cm,0.5cm},hmargin=0.5cm]{geometry}
 \usepackage{qrcode}
 \usepackage[letter,center,cam]{crop}
 
